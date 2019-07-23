@@ -26,10 +26,10 @@ import time
 from utils import *
 
 if (sys.argv[1] == "-h"):
-        print 'Usage:\n '
-        print 'python triage.py <signal_type> <file_type>'
-        print "signal_type   - {SIGSEGV, SIGABRT, SIGILL} (type of signal to catch)"
-        print "file_type     - {video, audio} \n"
+        print('Usage:\n ')
+        print('python triage.py <signal_type> <file_type>')
+        print("signal_type   - {SIGSEGV, SIGABRT, SIGILL} (type of signal to catch)")
+        print("file_type     - {video, audio} \n")
         sys.exit()
 
 signal_type = sys.argv[1]
@@ -39,7 +39,7 @@ file_type = sys.argv[2]
 cmd = "adb devices > devices.txt"
 run_subproc(cmd)
 
-f1 = open("devices.txt", "rw")
+f1 = open("devices.txt", "r")
 devices = f1.readlines()
 count_devices = len(devices) - 2
 dev = [None] * count_devices
@@ -59,15 +59,15 @@ for i in range(0, len(logs)):
 count_logs = len(logs)
 
 if (count_logs == 0):
-    print 'No logs to run'
-    print 'Edit the logs.txt file!'
+    print('No logs to run')
+    print('Edit the logs.txt file!')
     sys.exit()
 
 if count_logs < count_devices:
-    print 'More devices than logs to analyze...'
-    print '...quit now to use all available devices'
+    print('More devices than logs to analyze...')
+    print('...quit now to use all available devices')
     time.sleep(5)
-    print 'continuing...'
+    print('continuing...')
 
 retcode = [None] * count_devices
 
@@ -83,4 +83,4 @@ if (count_devices == count_logs):
         for i in range(0, count_devices-1):
             retcode[i].wait()
 else:
-    print "Check number of logs and number of devices..."
+    print("Check number of logs and number of devices...")

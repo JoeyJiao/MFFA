@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 """
@@ -27,9 +27,10 @@ import re
 import time
 
 
-def run_subproc(cmd):
-    r = subprocess.Popen([cmd], shell=True)
+def run_subproc(cmd, stdout=None):
+    r = subprocess.Popen([cmd], shell=True, stdout=stdout)
     r.wait()
+    return r
 
 
 """

@@ -27,45 +27,46 @@ import re
 import time
 from utils import *
 
+TMPDIR = "/data/local/tmp"
 
 def audio_software(device_id, seed_file):
     cmd = 'timeout 15 adb -s ' + device_id \
-          + " shell stagefright -s -a '/data/Music/" \
+          + " shell " + TMPDIR + "/stagefright -s -a '/data/Music/" \
           + seed_file + "'"
     run_subproc(cmd)
 
 
 def audio_hardware(device_id, seed_file):
     cmd = 'timeout 15 adb -s ' + device_id \
-          + " shell stagefright -r -a '/data/Music/" \
+          + " shell " + TMPDIR + "/stagefright -r -a '/data/Music/" \
           + seed_file + "'"
     run_subproc(cmd)
 
 
 def playback_audio_software(device_id, seed_file):
     cmd = 'timeout 15 adb -s ' + device_id \
-          + " shell stagefright -s -a -o '/data/Music/" \
+          + " shell " + TMPDIR + "/stagefright -s -a -o '/data/Music/" \
           + seed_file + "'"
     run_subproc(cmd)
 
 
 def playback_audio_hardware(device_id, seed_file):
     cmd = 'timeout 15 adb -s ' + device_id \
-          + " shell stagefright -r -a -o '/data/Music/" \
+          + " shell " + TMPDIR + "/stagefright -r -a -o '/data/Music/" \
           + seed_file + "'"
     run_subproc(cmd)
 
 
 def video_software(device_id, seed_file):
     cmd = 'timeout 15 adb -s ' + device_id \
-          + " shell stagefright -s '/data/Movies/" \
+          + " shell " + TMPDIR + "/stagefright -s '" + TMPDIR + "/Movies/" \
           + seed_file + "'"
     run_subproc(cmd)
 
 
 def video_hardware(device_id, seed_file):
     cmd = 'timeout 15 adb -s ' + device_id \
-          + " shell stagefright -r '/data/Movies/" \
+          + " shell " + TMPDIR + "/stagefright -r '" + TMPDIR + "/Movies/" \
           + seed_file + "'"
     run_subproc(cmd)
 
@@ -100,12 +101,12 @@ if sys.argv[2] == 'list':
     print 'Getting decoder profiles supported and listing components...\n'
     print '*** Decoder profiles: ***'
 
-    cmd = 'adb -s ' + device_id + ' shell stagefright -p'
+    cmd = 'adb -s ' + device_id + ' shell " + TMPDIR + "/stagefright -p'
     run_subproc(cmd)
 
     print '*** Components: ***'
 
-    cmd = 'adb -s ' + device_id + ' shell stagefright -l'
+    cmd = 'adb -s ' + device_id + ' shell " + TMPDIR + "/stagefright -l'
     run_subproc(cmd)
 
 if sys.argv[2] == 'audio':
@@ -160,7 +161,7 @@ if sys.argv[2] == 'video':
 
         cmd = 'adb -s ' + device_id + ' push ' \
               + "'" + root_path + '/' + seed_files[i] + "'" \
-              + " '/data/Movies/" + seed_files[i] + "'"
+              + " '" + TMPDIR + "/Movies/" + seed_files[i] + "'"
         run_subproc(cmd)
 
         # log the file being sent to the device
@@ -180,5 +181,5 @@ if sys.argv[2] == 'video':
 
         # remove the file from the device
 
-        cmd = 'adb -s ' + device_id + ' shell rm /data/Movies/*'
+        cmd = 'adb -s ' + device_id + ' shell rm ' + TMPDIR + '/Movies/*'
         run_subproc(cmd)
